@@ -40,6 +40,20 @@ def shell_sort(lst, flag):
         step //= 2
     return lst
 
+
+def quick_sort(nums, flag):
+    if len(nums) <= 1:
+        return nums
+    else:
+        q = random.choice(nums)
+    l_nums = [n for n in nums if n < q]
+    e_nums = [q] * nums.count(q)
+    r_nums = [n for n in nums if n > q]
+    if flag == True:
+        return quick_sort(l_nums, True) + e_nums + quick_sort(r_nums, True)
+    else:
+        return list(reversed(quick_sort(l_nums, True) + e_nums + quick_sort(r_nums, True)))
+
 list_ = [1, 0, 7, -5, 6, 4]
 print(bubble_sort(list_, True))
 list_ = [1, 0, 7, -5, 6, 4]
@@ -48,3 +62,5 @@ list_ = [1, 0, 7, -5, 6, 4]
 print(selection_sort(list_, True))
 list_ = [1, 0, 7, -5, 6, 4]
 print(shell_sort(list_, True))
+list_ = [1, 0, 7, -5, 6, 4]
+print(quick_sort(list_, True))

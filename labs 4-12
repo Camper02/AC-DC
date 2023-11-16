@@ -57,7 +57,43 @@ def quick_sort(nums, flag):
     else:
         return list(reversed(quick_sort(l_nums, True) + e_nums + quick_sort(r_nums, True)))
 
+#Пирамидальная
+def heap_sort(lst):
+    for i in range(len(lst), -1, -1):
+        heapify(lst, len(lst), i)
 
+    for i in range(len(lst) - 1, 0, -1):
+        lst[i], lst[0] = lst[0], lst[i]
+        heapify(lst, i, 0)
+    return lst
+
+#Слиянием
+def merge_sort(lst):
+    if len(lst) > 1:
+        mid = len(lst) // 2
+        lefthalf = lst[:mid]
+        righthalf = lst[mid:]
+        merge_sort(lefthalf)
+        merge_sort(righthalf)
+        i = 0
+        j = 0
+        k = 0
+        while i < len(lefthalf) and j < len(righthalf):
+            if lefthalf[i] < righthalf[j]:
+                lst[k] = lefthalf[i]
+                i = i + 1
+            else:
+                lst[k] = righthalf[j]
+                j = j + 1
+            k = k + 1
+        while i < len(lefthalf):
+            lst[k] = lefthalf[i]
+            i = i + 1
+            k = k + 1
+        while j < len(righthalf):
+            lst[k] = righthalf[j]
+            j = j + 1
+            k = k + 1
 
 list_ = [1, 0, 7, -5, 6, 4]
 print(bubble_sort(list_, True))
@@ -69,3 +105,7 @@ list_ = [1, 0, 7, -5, 6, 4]
 print(shell_sort(list_, True))
 list_ = [1, 0, 7, -5, 6, 4]
 print(quick_sort(list_, True))
+list_ = [1, 0, 7, -5, 6, 4]
+print(heap_sort(list_))
+list_ = [1, 0, 7, -5, 6, 4]
+print(merge_sort(list_))

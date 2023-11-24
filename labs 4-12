@@ -94,6 +94,7 @@ def merge_sort(lst):
             lst[k] = righthalf[j]
             j = j + 1
             k = k + 1
+    return lst
 
 # поразрядная сортировка
 def radix_sort(lst):

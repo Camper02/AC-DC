@@ -95,6 +95,23 @@ def merge_sort(lst):
             j = j + 1
             k = k + 1
 
+# поразрядная сортировка
+def radix_sort(lst):
+    max_digits = max([len(str(x)) for x in lst])
+    base = 10
+    bins = [[] for _ in range(base)]
+    for i in range(0, max_digits):
+        for x in lst:
+            digit = (x // base ** i) % base 
+            bins[digit].append(x)
+        lst = [x for queue in bins for x in queue]
+        bins = [[] for _ in range(base)]
+    return lst
+
+
+# запускаем сортировку
+print(radix_sort([137137105157, 24395739293, 474290561035, 5, 276, 42]))
+
 list_ = [1, 0, 7, -5, 6, 4]
 print(bubble_sort(list_, True))
 list_ = [1, 0, 7, -5, 6, 4]
@@ -109,3 +126,5 @@ list_ = [1, 0, 7, -5, 6, 4]
 print(heap_sort(list_))
 list_ = [1, 0, 7, -5, 6, 4]
 print(merge_sort(list_))
+list_ = [1, 0, 7, -5, 6, 4]
+print(radix_sort(list_))

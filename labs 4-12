@@ -125,3 +125,47 @@ list_ = [1, 0, 7, -5, 6, 4]
 print(merge_sort(list_))
 list_ = [1, 0, 7, -5, 6, 4]
 print(radix_sort(list_))
+
+
+#Внешняя многофазная 
+import os
+import heapq
+import tempfile
+
+def external_sort(input_file, output_file, chunk_size):
+    # Read input_file in chunks and sort each chunk
+    with open(input_file, 'r') as f:
+        chunk = []
+        chunk_count = 0
+        while True:
+            line = f.readline()
+
+            if not line:
+                break
+            chunk.append(int(line))
+
+            if len(chunk) == chunk_size:
+                chunk.sort()
+
+                with open(f'chunk_{chunk_count}.tmp', 'w') as chunk_file:
+                    for num in chunk:
+                        chunk_file.write(f"{num}\n")
+
+                chunk_count += 1
+                chunk = []
+
+    # Merge the sorted chunks using heapq
+    with open(output_file, 'w') as out_file:
+        files = [open(f'chunk_{i}.tmp', 'r') for i in range(chunk_count)]
+        merged = heapq.merge(*files, key=lambda x: int(x))
+        for line in merged:
+            out_file.write(line)
+        for i in files: i.close()
+
+    print(chunk_count)
+    # Clean up temporary files
+    for i in range(chunk_count):
+        os.remove(f'chunk_{i}.tmp')
+
+# Пример использования
+external_sort('input.txt', 'output.txt', chunk_size=2)

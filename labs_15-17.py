@@ -28,6 +28,7 @@ class TreeNode:
             self.post_order(node.right)
             print(node.value)
 
+    # не рекурсивный обход
     def non_recursive_pre_order(self, node):
         if node:
             stack = [node]
@@ -39,6 +40,7 @@ class TreeNode:
                 if curroot.left:
                     stack.append(curroot.left)
 
+    # линейное представление
     def linear_representation(self):
         result = []
         if self.left:
@@ -48,6 +50,7 @@ class TreeNode:
             result.append(self.right.linear_representation())
         return f"({','.join(result)})"
 
+    # поиск значения
     def search(self, value):
         if self.value == value:
             return True
@@ -58,6 +61,7 @@ class TreeNode:
         else:
             return False
 
+    # Добавление значения
     def insert(self, value):
         if value < self.value:
             if self.left is None:
@@ -70,6 +74,7 @@ class TreeNode:
             else:
                 self.right.insert(value)
 
+    # вывод дерева на дисплей
     def display_graphically(self, level=0, prefix="Корень: "):
         if self is not None:
             print(" " * (level * 4) + prefix + str(self.value))
@@ -78,6 +83,7 @@ class TreeNode:
             if self.right:
                 self.right.display_graphically(level + 1, "П--- ")
 
+    # удаление значения
     def delete(self, value):
         if value < self.value:
             if self.left:
@@ -102,46 +108,6 @@ class TreeNode:
                 self.value = successor.value
                 self.right = self.right.delete(successor.value)
         return self
-
-    def find_min(self):
-        current = self
-        while current.left:
-            current = current.left
-        return current
-
-    def find_parent(self, value, parent=None, direction=None):
-        if self.value == value:
-            return parent, direction
-        elif value < self.value and self.left:
-            return self.left.find_parent(value, self, "left")
-        elif value > self.value and self.right:
-            return self.right.find_parent(value, self, "right")
-        else:
-            return None, None
-
-    def sort_values(self):
-        result = []
-        if self.left:
-            result.extend(self.left.sort_values())
-        result.append(self.value)
-        if self.right:
-            result.extend(self.right.sort_values())
-        return sorted(result)
-
-    def rebuild_tree(self):
-        sorted_values = self.sort_values()
-        return self.build_tree_from_sorted_list(sorted_values)
-
-    def build_tree_from_sorted_list(self, sorted_list):
-        if not sorted_list:
-            return None
-        middle_index = len(sorted_list) // 2
-        middle_value = sorted_list[middle_index]
-        node = TreeNode(middle_value)
-        node.left = self.build_tree_from_sorted_list(sorted_list[:middle_index])
-        node.right = self.build_tree_from_sorted_list(sorted_list[middle_index + 1:])
-        return node
-
 
 def build_tree(values, parent):
     left_child = True
@@ -187,33 +153,13 @@ def build_tree_from_string(string):
 
 input_string = input("Введите бинарное дерево в линейно-скобочной записи: ")
 Tree = build_tree_from_string(input_string)
-# print("Прямой обход")
-# Tree.pre_order(Tree)
-# print("Центральный обход")
-# Tree.in_order(Tree)
-# print("Концевой обход")
-# Tree.post_order(Tree)
-# print("Не рекурсвиный прямой обход")
-# Tree.non_recursive_pre_order(Tree)
-# print("Изначальное дерево: ")
-# Tree.display_graphically()
-#
-# print("Поиск 6: ", Tree.search(6))
-# print("Поиск 5: ", Tree.search(5))
-#
-# Tree.delete(6)  # Удаление
-# print("После удаления 6: ")
-# print("Поиск 6: ", Tree.search(6))
-# Tree.display_graphically()
-#
-# Tree.insert(5)  # Добавление
-# print("После добавлние 5: ")
-# print("Поиск 5: ", Tree.search(5))
 Tree.display_graphically()
+
 while True:
     print("1-Добавить значение\n2-Удалить значени\n3-Найти значение\n"
           "4-Прямой обход\n5-Центральный обход \n6-Концевой обход\n"
-          "7-Не рекурсивный прямой обход\n8-Сортировка БДП\n0-Выход")
+          "7-Не рекурсивный прямой обход\n0-Выход")
+
     command = input("Введите команду:")
     if command == "0":
         break
@@ -234,11 +180,10 @@ while True:
         Tree.post_order(Tree)
     elif command == "7":
         Tree.non_recursive_pre_order(Tree)
-    elif command == "8":
-        Tree = Tree.rebuild_tree()
     else:
         print("Неизвестная команда")
     print("--------------------------")
 Tree.display_graphically()
+
 # Строка из задания для проверки
 # 8 (3 (1, 6 (4,7)), 10 (, 14(13,)))
